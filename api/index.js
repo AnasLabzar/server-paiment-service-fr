@@ -105,6 +105,7 @@ app.get('/api/get-user-info', (req, res) => {
         if (localeParts.length > 1) {
             countryCode = localeParts[1].toUpperCase();
         } else {
+            if (localeParts[0] === 'uk') countryCode = 'UK';
             if (localeParts[0] === 'fr') countryCode = 'FR';
             if (localeParts[0] === 'en') countryCode = 'US';
             if (localeParts[0] === 'es') countryCode = 'ES';
