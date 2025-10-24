@@ -118,4 +118,9 @@ app.get('/api/get-user-info', (req, res) => {
 
 
 // --- 6. Exporter l'application pour Vercel ---
-module.exports = app;
+// module.exports = app;
+
+const PORT = process.env.PORT || 5000; // Ghadi nkhdmo b port 5000
+app.listen(PORT, () => {
+    console.log(`Backend server khddam 3la port ${PORT}`);
+});
