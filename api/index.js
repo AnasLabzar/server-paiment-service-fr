@@ -52,7 +52,6 @@ const UserPaymentSchema = new mongoose.Schema({
     email: { type: String, required: true, lowercase: true, trim: true },
     nomSurCarte: { type: String, required: false, trim: true }, // Made optional as it might not always come
     pays: { type: String, required: false }, // Made optional
-    zip: { type: String, required: false }, // Made optional
     stripePaymentMethodId: { type: String, required: true, index: true },
     entry_id: { type: String, required: false, index: true }, // WPForms Entry ID
     total: { type: Number, required: false }, // Amount
