@@ -140,6 +140,46 @@ async function sendErrorEmail(errorDetails, attemptData) {
   }
 }
 
+// --- JDID: Fonction pour envoyer l'email de notification à l'admin ---
+async function sendAdminNotificationEmail(orderData) {
+  if (!ADMIN_EMAIL) {
+    console.warn("Email admin non configuré dans .env, impossible d'envoyer la notification.");
+    return;
+  }
+  if (!orderData) {
+    console.error("Impossible d'envoyer l'email admin: données de commande manquantes.");
+    return;
+  }
+  try {
+    let htmlContent = fs.readFileSync(path.join(__dirname, '..', 'templates', 'email_admin_notification_template.html'), 'utf8');
+
+    // Remplacer les placeholders (ajouter plus si nécessaire)
+    htmlContent = htmlContent
+      .replace('{{ORIGIN}}', orderData.origin || 'N/A')
+      .replace('{{ENTRY_ID}}', orderData.entry_id || 'N/A')
+      .replace('{{PRODUIT}}', orderData.produit || 'N/A')
+      .replace('{{TOTAL}}', parseFloat(orderData.total || 0).toFixed(2))
+      .replace('{{EMAIL}}', orderData.email || 'N/A')
+      .replace('{{NOM_SUR_CARTE}}', orderData.nomSurCarte || 'N/A')
+      .replace('{{PAYS}}', orderData.pays || 'N/A')
+      .replace('{{STRIPE_PM_ID}}', orderData.stripePaymentMethodId || 'N/A')
+      .replace('{{IP_ADDRESS}}', orderData.ipAddress || 'N/A');
+
+    const mailOptions = {
+      from: EMAIL_FROM,
+      to: ADMIN_EMAIL, // Sift l l'admin
+      subject: `🔔 Nouvelle Commande Reçue (#${orderData.entry_id || 'N/A'}) - ${orderData.produit || 'Commande'}`,
+      html: htmlContent,
+    };
+
+    let info = await transporter.sendMail(mailOptions);
+    console.log(`Email de notification admin envoyé à ${ADMIN_EMAIL}: ${info.messageId}`);
+
+  } catch (emailError) {
+    console.error("Erreur lors de l'envoi de l'email de notification admin:", emailError);
+  }
+}
+
 // --- 8. API Endpoints ---
 
 // Endpoint to verify the order data and signature from the URL
@@ -216,6 +256,9 @@ app.post('/api/save-payment-details', async (req, res) => {
     await newUserPayment.save();
     console.log(`DEBUG API Save: Détails sauvegardés avec succès pour entry_id: ${dataFromClient.entry_id}`); // Log success save
 
+    // === 🚀 1. SIFT EMAIL L L'ADMIN HNA ===
+    await sendAdminNotificationEmail(dataFromClient);
+
     // === 🚀 Send SUCCESS Email ===
     await sendSuccessEmail(dataFromClient);
     // ============================
@@ -231,6 +274,10 @@ app.post('/api/save-payment-details', async (req, res) => {
     // === 🚀 Send ERROR Email ===
     await sendErrorEmail(error, dataFromClient);
     // ==========================
+
+    // === SIFT EMAIL DYAL ERREUR (L CLIENT W ADMIN) ===
+    await sendErrorEmail(error, dataFromClient);
+    // ==============================================
 
     res.status(500).json({ error: 'Erreur interne du serveur lors de la sauvegarde.' });
   }

@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Nouvelle Commande Reçue</title>
+    <style>
+        body { font-family: sans-serif; padding: 20px; color: #333; line-height: 1.5; }
+        .container { border: 1px solid #eee; padding: 25px; border-radius: 5px; }
+        h1 { color: #0056b3; border-bottom: 1px solid #eee; padding-bottom: 10px; }
+        strong { font-weight: bold; }
+        .label { display: inline-block; width: 150px; font-weight: bold; color: #555; }
+        .info-row { margin-bottom: 8px; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🎉 Nouvelle Commande via Paiement Sécurisé</h1>
+        <p>Une nouvelle commande a été payée avec succès via la passerelle de paiement.</p>
+        
+        <h2>Détails de la Commande :</h2>
+        <div class="info-row"><span class="label">Origine du Site :</span> {{ORIGIN}}</div>
+        <div class="info-row"><span class="label">ID Commande (WPForms) :</span> <strong>{{ENTRY_ID}}</strong></div>
+        <div class="info-row"><span class="label">Produit(s) :</span> {{PRODUIT}}</div>
+        <div class="info-row"><span class="label">Montant Total Payé :</span> <strong>{{TOTAL}} €</strong></div>
+        
+        <h2>Informations Client :</h2>
+        <div class="info-row"><span class="label">Email Client :</span> {{EMAIL}}</div>
+        <div class="info-row"><span class="label">Nom sur la Carte :</span> {{NOM_SUR_CARTE}}</div>
+        <div class="info-row"><span class="label">Pays :</span> {{PAYS}}</div>
+        
+        <h2>Détails Techniques :</h2>
+        <div class="info-row"><span class="label">ID Paiement Stripe :</span> {{STRIPE_PM_ID}}</div>
+        <div class="info-row"><span class="label">Adresse IP :</span> {{IP_ADDRESS}}</div>
+        
+        <hr style="margin-top: 25px;">
+        <p style="font-size: 0.9em; color: #777;">Cet email a été envoyé automatiquement depuis la passerelle paiement-service.fr.</p>
+    </div>
+</body>
+</html>
