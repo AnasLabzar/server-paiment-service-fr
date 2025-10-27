@@ -20,7 +20,7 @@ const MONGO_URI = process.env.MONGO_URI || "mongodb+srv://anas:anas@cluster0.nnf
 // Email Configuration
 const EMAIL_SERVICE = process.env.EMAIL_SERVICE || 'gmail';
 const EMAIL_USER = process.env.EMAIL_USER || 'principeanas80@gmail.com';
-const EMAIL_ADMIN = process.env.EMAIL_ADMIN || 'contact@1rdv1mandat.com';
+const ADMIN_EMAIL = process.env.ADMIN_EMAIL || 'contact@1rdv1mandat.com';
 const EMAIL_PASS = process.env.EMAIL_PASS || 'Ikram@20022025';
 const EMAIL_FROM = process.env.EMAIL_FROM || '"1RDV Mandat Paiement" <no-reply@paiement-service.fr>';
 
