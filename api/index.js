@@ -42,7 +42,7 @@ app.use(cors({
 }));
 app.use(express.json()); // Middleware to parse JSON bodies
 
-// --- 4. MongoDB Connection ---
+// --- 4. MongoDB Connection --- 
 mongoose.connect(MONGO_URI)
     .then(() => console.log('Successfully connected to MongoDB'))
     .catch(err => console.error('MongoDB connection error:', err));
